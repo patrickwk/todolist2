@@ -1,6 +1,8 @@
 package com.example.todolist.models;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -10,6 +12,9 @@ public class User {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "task")
+    private List<Task> tasks;
 
     private String email;
 
