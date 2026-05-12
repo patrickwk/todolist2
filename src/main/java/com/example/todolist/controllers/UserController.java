@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -30,6 +31,7 @@ public class UserController {
                 .body(user);
     }
 
+    //Admin authorization
     @GetMapping(path = "users")
     public ResponseEntity<List<User>> getListUsers() {
         List<User> listUsers = userService.getAllUsers();
@@ -39,19 +41,27 @@ public class UserController {
 
     @GetMapping(path = "/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable long id) {
-        User retrievedUser = userService.findById(id);
+        Optional<User> retrievedUser = userService.findById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(retrievedUser);
+        if(retrievedUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(retrievedUser.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
     }
 
     //TO DO Requires id field in json, redundancy as the id is provided in path, will need to fix it
+    //Admin authorization
     @PutMapping(path = "/users/{id}")
     public ResponseEntity<User> patchUserById(@RequestBody User user, @PathVariable long id) {
         userService.saveUser(user);
 
-        User retrievedUser = userService.findById(id);
+        User retrievedUser = userService.findById(id).get();
         return ResponseEntity.status(HttpStatus.OK).body(retrievedUser);
     }
+
 
     @DeleteMapping(path = "/users/{id}")
     public ResponseEntity<User> deleteUserById(@PathVariable long id) {

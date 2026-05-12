@@ -6,6 +6,7 @@ import com.example.todolist.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -31,11 +32,9 @@ public class UserService {
         return user;
     }
 
-    public User findById(long id){
+    public Optional<User> findById(long id){
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return user;
+        return userRepository.findById(id);
 
     }
 
