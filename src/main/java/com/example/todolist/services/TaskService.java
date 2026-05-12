@@ -5,6 +5,7 @@ import com.example.todolist.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -26,7 +27,7 @@ public class TaskService {
         taskRepository.deleteByUuid(uuid);
     }
 
-    public Task findByUuid(String uuid){
+    public Optional<Task> findByUuid(String uuid){
         return taskRepository.findByUuid(uuid);
     }
 }

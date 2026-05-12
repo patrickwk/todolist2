@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +29,7 @@ public class TaskController {
                 .body(task);
     }
 
+    //Figure out if Optional also applies for List<Task>
     @GetMapping(path = "/tasks/{user_id}")
     public ResponseEntity<?> getListTasksOfUser(@PathVariable long user_id) {
         List<Task> tasks = taskService.findAllByUserId(user_id);
@@ -36,10 +38,14 @@ public class TaskController {
         }
 
     @GetMapping(path = "/tasks/{uuid}")
-    public ResponseEntity<?> getTask(@PathVariable String uuid) {
-        Task task =  taskService.findByUuid(uuid);
+    public ResponseEntity<?> getTaskByUuid(@PathVariable String uuid) {
+        Optional<Task> task =  taskService.findByUuid(uuid);
 
-        return ResponseEntity.status(HttpStatus.OK).body(task);
+        if(task.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(task);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping(path = "/tasks/{uuid}/")
