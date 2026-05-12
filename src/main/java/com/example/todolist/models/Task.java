@@ -2,7 +2,7 @@ package com.example.todolist.models;
 import jakarta.persistence.*;
 
 import java.util.UUID;
-
+//TO DO add validations
 @Entity
 @Table(name = "tasks")
 public class Task {
