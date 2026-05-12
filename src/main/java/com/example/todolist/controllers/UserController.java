@@ -44,12 +44,23 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(retrievedUser);
     }
 
-    @PatchMapping(path = "/users/{id}")
+    //TO DO Requires id field in json, redundancy as the id is provided in path, will need to fix it
+    @PutMapping(path = "/users/{id}")
     public ResponseEntity<User> patchUserById(@RequestBody User user, @PathVariable long id) {
         userService.saveUser(user);
 
         User retrievedUser = userService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(retrievedUser);
+    }
+
+    @DeleteMapping(path = "/users/{id}")
+    public ResponseEntity<User> deleteUserById(@PathVariable long id) {
+        //I wanted to include the code below so I can send the deleted user json, but code 204 doesn't allow a body
+//        User deletedUser = userService.findById(id);
+
+        userService.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
