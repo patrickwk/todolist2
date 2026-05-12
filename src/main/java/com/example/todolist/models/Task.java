@@ -3,12 +3,6 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-enum TaskStatus {
-    TO_DO,
-    IN_PROGRESS,
-    DONE
-}
-
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -27,4 +21,10 @@ public class Task {
 
 
 
+}
+
+enum TaskStatus {
+    TO_DO,
+    IN_PROGRESS,
+    DONE
 }
